@@ -1,30 +1,43 @@
 const createError = require("http-errors")
 const db = require("../models/db")
+const Contact = require("../models/contactsSchema")
 const uuid = require("uuid-random")
 
-exports.getContacts = (req, res, next) => {
-    let contacts = db.get("contacts").value()
-    res.json({
-        success: true,
-        contacts: contacts
-    })
+exports.getContacts = async(req, res, next) => {
+    // let contacts = db.get("contacts").value()
+
+    try {
+        const contacts = await Contact.find()
+        res.json({
+            success: true,
+            contacts: contacts
+        })
+    } catch (err) {
+        next(err)
+    }
+
 }
 
-exports.getContact = (req, res, next) => {
+exports.getContact = async(req, res, next) => {
     const {
         id
     } = req.params
-    let contact = db.get("contacts").find({
-        id
-    }).value()
-    res.json({
-        success: true,
-        contact: contact
-    })
+
+    try {
+        const contact = await contact.findById(id)
+        if (!contact) throw createError(404)
+        res.json({
+            success: true,
+            contact: contact
+        })
+    } catch (err) {
+        next(err)
+    }
+
 }
 
 exports.postContact = (req, res, next) => {
-    console.log("contact.............", req.body)
+    console.log(req.body)
 
     db.get("contacts")
         .push(req.body)
@@ -57,7 +70,6 @@ exports.putContact = (req, res, next) => {
     })
 
 }
-
 exports.deleteContact = (req, res, next) => {
     console.log(req.params.id)
     if (req.params.id !== "1") {

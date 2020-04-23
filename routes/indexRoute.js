@@ -1,8 +1,7 @@
 const Route = require("express").Router()
-const {
-    indexController
-} = require("../controllers/indexController")
+const {indexController} = require("../controllers/indexController")
 
-Route.get("/", indexController)
 
-module.exports = Route
+Route.get("/", indexController )
+
+module.exports=Route

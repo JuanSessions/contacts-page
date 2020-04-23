@@ -1,24 +1,49 @@
-// import external node js module
 const express = require("express")
-
-// import handler http errors
-// const httpError = require("http-errors")
+const app = express()
+const createError = require("http-errors")
+const mongoose = require("mongoose")
 
 const indexRoute = require("./routes/indexRoute")
+const booksRoute = require("./routes/booksRoute")
+const contactsRoute = require("./routes/contactsRoute")
+const ordersRoute = require("./routes/ordersRoute")
 
-// create express-server
-const app = express()
+const port = process.env.PORT || 3000;
+
+mongoose.connect("mongodb://127.0.0.1:27017/node-js-practice", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+mongoose.connection.on("error", (err) => console.log(err))
+mongoose.connection.on("open", () => console.log("database connected"))
+
 
 app.use(express.json())
 
-// use routes
+
 app.use("/", indexRoute)
 
+app.use("/books", booksRoute)
+app.use("/orders", ordersRoute)
+app.use("/contacts", contactsRoute)
 
-// create port
-const port = process.env.PORT || 3000
 
-// listen server
-app.listen(port, () => {
-    console.log(`Server has been started on port: ${port}`)
+
+//errors handler
+app.use((req, res, next) => {
+    next(createError(404))
 })
+
+//error catcher
+app.use((err, req, res, next) => {
+    res.json({
+        status: err.status,
+        err: err.message
+    })
+})
+
+
+
+
+
+app.listen(port, () => console.log("server is running"))

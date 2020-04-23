@@ -1,3 +1,3 @@
-exports.indexController = (req, res, next) => {
+exports.indexController=(req,res,next)=>{
     res.send("received get request")
 }
