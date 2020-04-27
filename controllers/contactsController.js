@@ -1,11 +1,9 @@
 const createError = require("http-errors")
-const db = require("../models/db")
 const Contact = require("../models/contactSchema")
     //const uuid = require("uuid-random")
 
 exports.getContacts = async(req, res, next) => {
     // let contacts = db.get("contacts").value()
-
     try {
         const contacts = await Contact.find()
         res.header("Access-control-Allow-Origin", "*")
@@ -16,7 +14,6 @@ exports.getContacts = async(req, res, next) => {
     } catch (err) {
         next(err)
     }
-
 }
 
 exports.getContact = async(req, res, next) => {

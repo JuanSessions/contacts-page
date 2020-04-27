@@ -15,7 +15,7 @@ const {
 
 
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 
 mongoose.connect("mongodb://127.0.0.1:27017/node-js-practice", {

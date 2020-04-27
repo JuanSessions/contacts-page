@@ -9,7 +9,7 @@ const BookSchema = new Schema({
         type: String,
         required: true
     },
-    artist: {
+    author: {
         type: String,
         required: true
     },
