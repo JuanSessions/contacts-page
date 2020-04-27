@@ -1,13 +1,14 @@
 const createError = require("http-errors")
 const db = require("../models/db")
-const Contact = require("../models/contactsSchema")
-const uuid = require("uuid-random")
+const Contact = require("../models/contactSchema")
+    //const uuid = require("uuid-random")
 
 exports.getContacts = async(req, res, next) => {
     // let contacts = db.get("contacts").value()
 
     try {
         const contacts = await Contact.find()
+        res.header("Access-control-Allow-Origin", "*")
         res.json({
             success: true,
             contacts: contacts
@@ -24,7 +25,7 @@ exports.getContact = async(req, res, next) => {
     } = req.params
 
     try {
-        const contact = await contact.findById(id)
+        const contact = await Contact.findById(id)
         if (!contact) throw createError(404)
         res.json({
             success: true,
@@ -36,53 +37,58 @@ exports.getContact = async(req, res, next) => {
 
 }
 
-exports.postContact = (req, res, next) => {
+exports.postContact = async(req, res, next) => {
     console.log(req.body)
 
-    db.get("contacts")
-        .push(req.body)
-        .last()
-        .assign({
-            id: uuid()
+    try {
+        const contact = new Contact(req.body)
+        await contact.save()
+        res.json({
+            success: true,
+            contact: contact
         })
-        .write()
-
-
-    res.json({
-        success: true,
-        contact: req.body
-    })
+    } catch (err) {
+        next(err)
+    }
 }
 
-exports.putContact = (req, res, next) => {
+
+exports.putContact = async(req, res, next) => {
     const {
         id
     } = req.params
     const contact = req.body
-    contact.id = uuid()
-    db.get("contacts").find({
-        id
-    }).assign(contact).write()
-
-    res.json({
-        success: true,
-        contact: contact
-    })
-
-}
-exports.deleteContact = (req, res, next) => {
-    console.log(req.params.id)
-    if (req.params.id !== "1") {
-        next(createError(500))
+        //contact.id = uuid()
+    try {
+        const contact = await Contact.findByIdAndUpdate(id, contact, {
+            new: true
+        })
+        if (!updatedContact) throw createError(500)
+        res.json({
+            success: true,
+            contact: updatedContact
+        })
+    } catch (err) {
+        next(err)
     }
+}
+
+
+exports.deleteContact = async(req, res, next) => {
+
     const {
         id
     } = req.params
-    let contact = db.get("contacts").remove({
-        id
-    }).write()
-    res.json({
-        success: true,
-        contact: contact
-    })
+
+    try {
+        const contact = await Contact.findByIdAndDelete(id)
+        if (!contact) throw createError(404)
+        res.json({
+            success: true,
+            contact: contact
+        })
+    } catch (err) {
+        next(err)
+    }
+
 }

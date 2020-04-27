@@ -1,75 +1,91 @@
 const createError = require("http-errors")
-const db = require("../models/db")
-const uuid = require("uuid-random")
+    //const db = require("../models/db")
+    //const uuid = require("uuid-random")
+const Order = require("../models/orderSchema")
 
-exports.getOrders = (req, res, next) => {
-    let orders = db.get("orders").value()
-    res.json({
-        success: true,
-        orders: orders
-    })
+exports.getOrders = async(req, res, next) => {
+    try {
+        const orders = await Order.find()
+
+        res.json({
+            success: true,
+            orders: orders
+        })
+    } catch (err) {
+        next(err)
+    }
+
 }
 
-exports.getOrder = (req, res, next) => {
+exports.getOrder = async(req, res, next) => {
     const {
         id
     } = req.params
-    let order = db.get("orders").find({
-        id
-    }).value()
-    res.json({
-        success: true,
-        order: order
-    })
-}
+    try {
+        const orders = await Order.findById(id)
+        if (!order) throw createError(404)
 
-exports.postOrder = (req, res, next) => {
-    console.log("order.............", req.body)
-
-    db.get("orders")
-        .push(req.body)
-        .last()
-        .assign({
-            id: uuid()
+        res.json({
+            success: true,
+            orders: orders
         })
-        .write()
-
-
-    res.json({
-        success: true,
-        order: req.body
-    })
+    } catch (err) {
+        next(err)
+    }
 }
 
-exports.putOrder = (req, res, next) => {
+
+exports.postOrder = async(req, res, next) => {
+
+    try {
+        const order = new Order(req.body)
+        await order.save()
+        res.json({
+            success: true,
+            order: order
+        })
+    } catch (err) {
+        next(err)
+    }
+
+}
+
+
+exports.putOrder = async(req, res, next) => {
     const {
         id
     } = req.params
     const order = req.body
-    order.id = uuid()
-    db.get("orders").find({
-        id
-    }).assign(order).write()
+    try {
+        const updatedOrder = await Order.findByIdAndUpdate(id, order, {
+            new: true
+        })
+        if (!updatedOrder) throw createError(404)
 
-    res.json({
-        success: true,
-        order: order
-    })
+        res.json({
+            success: true,
+            order: updatedOrder
+        })
+    } catch (err) {
+        next(err)
+    }
 
 }
-exports.deleteOrder = (req, res, next) => {
-    console.log(req.params.id)
-    if (req.params.id !== "1") {
-        next(createError(500))
-    }
+
+
+exports.deleteOrder = async(req, res, next) => {
+
     const {
         id
     } = req.params
-    let order = db.get("orders").remove({
-        id
-    }).write()
-    res.json({
-        success: true,
-        order: order
-    })
+    try {
+        const order = await Order.findByIdAndDelete(id)
+        if (!order) throw createError(404)
+        res.json({
+            success: true,
+            order: order
+        })
+    } catch (err) {
+        next(err)
+    }
 }

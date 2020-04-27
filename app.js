@@ -2,23 +2,34 @@ const express = require("express")
 const app = express()
 const createError = require("http-errors")
 const mongoose = require("mongoose")
+const logger = require("morgan")
+
 
 const indexRoute = require("./routes/indexRoute")
 const booksRoute = require("./routes/booksRoute")
 const contactsRoute = require("./routes/contactsRoute")
 const ordersRoute = require("./routes/ordersRoute")
+const {
+    log
+} = require("./middleware/log")
 
-const port = process.env.PORT || 3000;
+
+
+const port = process.env.PORT || 3001;
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/node-js-practice", {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 })
 mongoose.connection.on("error", (err) => console.log(err))
 mongoose.connection.on("open", () => console.log("database connected"))
 
 
 app.use(express.json())
+    //this is the middleware, getting data from the controller
+app.use(logger("dev"))
 
 
 app.use("/", indexRoute)

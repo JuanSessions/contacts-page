@@ -1,77 +1,93 @@
 const createError = require("http-errors")
-const db = require("../models/db")
-const uuid = require("uuid-random")
+    //const db = require("../models/db")
+    //const uuid = require("uuid-random")
+const Book = require("../models/bookSchema")
 
-exports.getBooks = (req, res, next) => {
-    let books = db.get("books").value()
-    res.json({
-        success: true,
-        books: books
-    })
+exports.getBooks = async(req, res, next) => {
+
+    try {
+        const books = await Book.find()
+
+        res.json({
+            success: true,
+            books: books
+        })
+    } catch (err) {
+        next(err)
+    }
 }
 
-exports.getBook = (req, res, next) => {
-    console.log(typeof req.params.id)
-    console.log(typeof uuid())
+exports.getBook = async(req, res, next) => {
     const {
         id
     } = req.params
-    let book = db.get("books").find({
-        id
-    }).value()
-    res.json({
-        success: true,
-        book: book
-    })
-}
+    try {
+        const book = await Book.findById()
+        if (!book) throw createError(404)
 
-exports.postBook = (req, res, next) => {
-    console.log(req.body)
-
-    db.get("books")
-        .push(req.body)
-        .last()
-        .assign({
-            id: uuid()
+        res.json({
+            success: true,
+            book: book
         })
-        .write()
-
-
-    res.json({
-        success: true,
-        book: req.body
-    })
+    } catch (err) {
+        next(err)
+    }
 }
 
-exports.putBook = (req, res, next) => {
+exports.postBook = async(req, res, next) => {
+
+    try {
+        const book = new Book(req.body)
+        await book.save()
+
+        res.json({
+            success: true,
+            book: book
+        })
+    } catch (err) {
+        next(err)
+    }
+
+}
+
+exports.putBook = async(req, res, next) => {
     const {
         id
     } = req.params
     const book = req.body
-    book.id = new Date().toString()
-    db.get("books").find({
-        id
-    }).assign(book).write()
 
-    res.json({
-        success: true,
-        book: book
-    })
+    try {
+        const updatedBook = await Book.findByIdAndUpdate(id, book, {
+            new: true
+        })
+        if (!updatedBook) throw createError(404)
+
+        res.json({
+            success: true,
+            book: updatedBook
+        })
+    } catch (err) {
+        next(err)
+    }
 
 }
-exports.deleteBook = (req, res, next) => {
-    console.log(req.params.id)
-    if (req.params.id !== "1") {
-        next(createError(500))
-    }
+
+
+exports.deleteBook = async(req, res, next) => {
     const {
         id
     } = req.params
-    let book = db.get("books").remove({
-        id
-    }).write()
-    res.json({
-        success: true,
-        book: book
-    })
+
+    try {
+        const book = await Book.findByIdAndDelete(id)
+        if (!book) throw createError(404)
+
+        res.json({
+            success: true,
+            book: book
+        })
+    } catch (err) {
+        next(err)
+    }
+
 }

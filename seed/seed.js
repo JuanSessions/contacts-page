@@ -3,12 +3,12 @@
 
 
 const mongoose = require("mongoose")
-const Contact = require("../models/contactsSchema")
+const Contact = require("../models/contactSchema")
 const faker = require("faker")
 
 
 const main = async() => {
-    mongoose.connect("mongodb://127.0.0.1:27017/node-js-practice", {
+    mongoose.connect("mongodb://127.0.0.1:27017/record-shop-mongo", {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -17,17 +17,17 @@ const main = async() => {
 
     try {
         await Contact.deleteMany({}) //passing empty object means u r deleting everything
-        console.log("refresh/deleting users collection")
+        console.log("refresh/deleting contacts collection")
     } catch (err) {
         console.log(error)
     }
 
     //array with 10empty spaces and map through it like tic-tac-toe exercise
-    const ContactPromises = Array(10).fill(null).map(() => {
+    const contactPromises = Array(10).fill(null).map(() => {
 
         const contact = new Contact({
-            //will create a Contact for u
-            firstName: faker.name.findName(),
+            //will create a contact for u
+            firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
             email: faker.internet.email(),
             password: faker.internet.password()
@@ -35,13 +35,13 @@ const main = async() => {
         return contact.save() //in mongo u use method "save" to store
     })
     try {
-        await Promise.all(ContactPromises)
+        await Promise.all(contactPromises)
         console.log("Contacts Added into the database")
 
     } catch (err) {
         console.log(err)
     }
-    //10 random fake Contacts created trough the faker
+    //10 random fake contacts created trough the faker
 }
 
 main();
