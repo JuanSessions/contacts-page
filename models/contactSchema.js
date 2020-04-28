@@ -40,4 +40,4 @@ contactSchema.virtual("fullName").get(function(name) {
 })
 
 module.exports = mongoose.model("Contact", contactSchema)
-    //u r storing the data "userSchema "it in the "user" collection
+    //export data "userSchema" it in the "user" collection.

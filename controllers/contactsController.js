@@ -1,12 +1,12 @@
 const createError = require("http-errors")
 const Contact = require("../models/contactSchema")
-    //const uuid = require("uuid-random")
+
 
 exports.getContacts = async(req, res, next) => {
-    // let contacts = db.get("contacts").value()
+
     try {
         const contacts = await Contact.find()
-        res.header("Access-control-Allow-Origin", "*")
+
         res.json({
             success: true,
             contacts: contacts
@@ -48,7 +48,6 @@ exports.postContact = async(req, res, next) => {
         next(err)
     }
 }
-
 
 exports.putContact = async(req, res, next) => {
     const {
