@@ -88,3 +88,26 @@ exports.deleteContact = async(req, res, next) => {
     }
 
 }
+
+exports.login = async(req, res, next) => {
+
+    const {
+        email,
+        password
+    } = req.body
+    try {
+        const contact = await Contact.findOne({
+            email,
+            password
+        })
+        if (!contact) throw createError(404)
+        res.header("test", "123")
+        res.json({
+            success: true,
+            contact: contact
+        })
+    } catch (err) {
+        next(err)
+    }
+
+}

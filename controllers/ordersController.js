@@ -1,11 +1,10 @@
 const createError = require("http-errors")
-    //const db = require("../models/db")
-    //const uuid = require("uuid-random")
 const Order = require("../models/orderSchema")
 
 exports.getOrders = async(req, res, next) => {
     try {
-        const orders = await Order.find()
+        const orders = await Order.find().populate("book", "-__v")
+            // "-_v -year -img -price" =>this means excluding this fields
 
         res.json({
             success: true,
@@ -22,12 +21,13 @@ exports.getOrder = async(req, res, next) => {
         id
     } = req.params
     try {
-        const orders = await Order.findById(id)
+        const order = await Order.findById(id).populate("book", "-__v")
+            // "-_v -year -img -price" =>this means excluding this fields
         if (!order) throw createError(404)
 
         res.json({
             success: true,
-            orders: orders
+            order: order
         })
     } catch (err) {
         next(err)

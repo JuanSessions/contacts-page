@@ -1,17 +1,22 @@
 const createError = require("http-errors")
-    //const db = require("../models/db")
-    //const uuid = require("uuid-random")
+
 const Book = require("../models/bookSchema")
 
 exports.getBooks = async(req, res, next) => {
 
     try {
+        /*   const value = req.header("test")
+        if (value === "123") {
+ */
         const books = await Book.find()
 
         res.json({
-            success: true,
-            books: books
-        })
+                success: true,
+                books: books
+            })
+            /*  } else {
+                 throw createError(404)
+             } */
     } catch (err) {
         next(err)
     }

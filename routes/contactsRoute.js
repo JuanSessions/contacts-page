@@ -4,7 +4,8 @@ const {
     getContact,
     postContact,
     putContact,
-    deleteContact
+    deleteContact,
+    login
 } = require("../controllers/contactsController")
 const {
     validateInputs
@@ -17,7 +18,7 @@ const {
 Route.get("/", getContacts)
 Route.get("/:id", getContact)
 Route.post("/", validateInputs(), postContact)
-
+Route.post("/login", login)
 
 
 /* Route.route("/")
