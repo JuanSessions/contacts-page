@@ -4,7 +4,7 @@ const Order = require("../models/orderSchema")
 exports.getOrders = async(req, res, next) => {
     try {
         const orders = await Order.find().populate("book", "-__v")
-            // "-_v -year -img -price" =>this means excluding this fields
+            // "-__v -year -img -price" =>this means excluding this fields
 
         res.json({
             success: true,
@@ -22,7 +22,7 @@ exports.getOrder = async(req, res, next) => {
     } = req.params
     try {
         const order = await Order.findById(id).populate("book", "-__v")
-            // "-_v -year -img -price" =>this means excluding this fields
+            // "-__v -year -img -price" =>this means excluding this fields
         if (!order) throw createError(404)
 
         res.json({

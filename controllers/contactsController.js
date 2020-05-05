@@ -1,6 +1,6 @@
 const createError = require("http-errors")
 const Contact = require("../models/contactSchema")
-
+const jwt = require("jsonwebtoken")
 
 exports.getContacts = async(req, res, next) => {
 
@@ -39,11 +39,16 @@ exports.postContact = async(req, res, next) => {
 
     try {
         const contact = new Contact(req.body)
+        const token = contact.generateAuthToken()
         await contact.save()
-        res.json({
+
+        const data = contact.getPublicFields()
+
+        res.header("x-auth", token).json({
             success: true,
             contact: contact
         })
+
     } catch (err) {
         next(err)
     }
@@ -54,7 +59,7 @@ exports.putContact = async(req, res, next) => {
         id
     } = req.params
     const contact = req.body
-        //contact.id = uuid()
+
     try {
         const contact = await Contact.findByIdAndUpdate(id, contact, {
             new: true
@@ -96,15 +101,22 @@ exports.login = async(req, res, next) => {
         password
     } = req.body
     try {
+
         const contact = await Contact.findOne({
-            email,
-            password
+            email
         })
-        if (!contact) throw createError(404)
-        res.header("test", "123")
-        res.json({
+        console.log("test1")
+        const valid = await contact.checkPassword(password)
+        console.log("test2")
+        if (!valid) throw createError(403)
+
+        let token = contact.generateAuthToken()
+        const data = contact.getPublicFields()
+
+
+        res.header("x-auth", token).json({
             success: true,
-            contact: contact
+            contact: data
         })
     } catch (err) {
         next(err)
