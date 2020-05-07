@@ -7,9 +7,14 @@
         "start": "node app.js",
         "dev": "nodemon app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "node build --output public"
+        "build": "node build --output public",
+        "heroku-postbuild": "npm install && npm run build"
     },
     "author": "",
+    "engines": {
+        "node": "12.10.0",
+        "npm": "6.11.3"
+    },
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^4.0.1",
