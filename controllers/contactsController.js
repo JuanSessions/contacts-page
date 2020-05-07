@@ -44,7 +44,9 @@ exports.postContact = async(req, res, next) => {
 
         const data = contact.getPublicFields()
 
-        res.header("x-auth", token).json({
+        res.cookie("x-auth", token, {
+            secure: true
+        }).json({
             success: true,
             contact: contact
         })
@@ -114,7 +116,7 @@ exports.login = async(req, res, next) => {
         const data = contact.getPublicFields()
 
 
-        res.header("x-auth", token).json({
+        res.cookie("x-auth", token).json({
             success: true,
             contact: data
         })

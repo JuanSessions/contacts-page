@@ -3,7 +3,8 @@ const app = express()
 const createError = require("http-errors")
 const mongoose = require("mongoose")
 const logger = require("morgan")
-
+const env = require("./config/config")
+const CookieParser = require("cookie-parser")
 
 const indexRoute = require("./routes/indexRoute")
 const booksRoute = require("./routes/booksRoute")
@@ -20,7 +21,7 @@ const {
 const port = process.env.PORT || 3000;
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/node-js-practice", {
+mongoose.connect(env.db, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
@@ -28,7 +29,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/node-js-practice", {
 mongoose.connection.on("error", (err) => console.log(err))
 mongoose.connection.on("open", () => console.log("database connected"))
 
-
+app.use(CookieParser())
 app.use(express.json())
     //this is the middleware, getting data from the controller
 app.use(logger("dev"))
