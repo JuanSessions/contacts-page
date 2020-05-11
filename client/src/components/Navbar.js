@@ -13,6 +13,11 @@ function Navbar() {
                     </NavLink>
                 </li>
                 <li>
+                    <NavLink to="/login" exact activeClassName="active" className="ai-element__label" >
+                        Login
+                    </NavLink>
+                </li>
+                <li>
                     <NavLink to="/contact" activeClassName="active" className="ai-element__label">
                         User account
                         

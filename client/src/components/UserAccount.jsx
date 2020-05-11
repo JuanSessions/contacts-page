@@ -3,7 +3,8 @@ import React from 'react'
 function UserAccount() {
     return (
         <div>
-            Contact account with the "user" information
+            <h1>Contact account</h1>
+            <p> with the "user" information</p>
         </div>
     )
 }
