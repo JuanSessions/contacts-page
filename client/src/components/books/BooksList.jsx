@@ -1,11 +1,34 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const BooksList = () => {
+    const [books, setBooks] = useState([])
+
+    useEffect(() => {
+        //fetch("http://monogo-contacts-juan.herokuapp.com/books")
+        fetch("http://localhost:3001/books")
+            .then(res => res.json())
+            .then(data => {
+                setBooks(data.books)
+            })
+    }, [])
+
+    console.log("books:", books);
+
     return (
         <div>
             <h1>Books List Page</h1>
             <p>display of catalog</p>
+            {
+                books && books.map(book => {
+                    return (
+                        <div key={book.id}>
+                            <h2> {book.title}</h2>
+                            <p>{book.author} </p>
+                        </div>
+                    )
+                })
+            }
         </div>
     );
 };
