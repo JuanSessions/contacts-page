@@ -10,7 +10,9 @@ const {
 const auth = require("../middleware/authenticator")
 const isAdmin = require("../middleware/rolesAuthenticator")
 
-Route.get("/", auth, getBooks) //auth checks that the user has a token and then continue w the request
+
+Route.get("/", getBooks)
+    //Route.get("/", auth, getBooks) //auth checks that the user has a token and then continue w the request
 Route.get("/:id", auth, getBook)
 Route.post("/", auth, isAdmin, postBook)
 

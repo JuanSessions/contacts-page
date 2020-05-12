@@ -4,12 +4,9 @@
     "description": "",
     "main": "app.js",
     "scripts": {
-        "start": "node app.js",
-        "dev": "nodemon app.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "node build --output public",
-        "heroku-postbuild": "npm install && npm run build"
+        "start": "node app.js"
     },
+
     "author": "",
     "engines": {
         "node": "12.10.0",
@@ -25,13 +22,6 @@
         "http-errors": "^1.7.3",
         "jsonwebtoken": "^8.5.1",
         "lowdb": "^1.0.0",
-        "mongoose": "^5.9.10",
-        "uuid": "^7.0.3",
-        "uuid-random": "^1.3.0"
-    },
-    "devDependencies": {
-        "faker": "^4.1.0",
-        "morgan": "^1.10.0",
-        "nodemon": "^2.0.3"
+        "mongoose": "^5.9.10"
     }
 }

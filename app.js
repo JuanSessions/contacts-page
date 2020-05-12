@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const createError = require("http-errors")
 const mongoose = require("mongoose")
-const logger = require("morgan")
+    //const logger = require("morgan")
 const env = require("./config/config")
 const CookieParser = require("cookie-parser")
 
@@ -18,7 +18,7 @@ const {
     setCors
 } = require("./middleware/security")
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 
 mongoose.connect(env.db, {
@@ -32,7 +32,8 @@ mongoose.connection.on("open", () => console.log("database connected"))
 app.use(CookieParser())
 app.use(express.json())
     //this is the middleware, getting data from the controller
-app.use(logger("dev"))
+
+//app.use(logger("dev"))
 app.use(setCors)
 
 app.use("/", indexRoute)
