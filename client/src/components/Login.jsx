@@ -24,7 +24,7 @@ export default function Login(props) {
         const data = await response.json();
         console.log('data response:', data);
         if (data.success) {
-            props.setIsLoggedIn(true)
+            props.setLogIn(true)
             console.log("login")
         }
         console.log(response.headers.get("x-auth"))
@@ -32,7 +32,7 @@ export default function Login(props) {
 
     return (
         <div className="login-container">
-            {props.isLoggedIn ? <Redirect to="/books" /> :
+            {props.LogIn ? <Redirect to="/" /> :
                 <div className="form-container">
                     <h2>Login</h2>
                     <form onSubmit={handleLogin}>

@@ -1,11 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import BooksList from './books/BooksList';
 
 
 const Home = () => {
+
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        fetch("https://google-books.p.rapidapi.com/volumes", {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "google-books.p.rapidapi.com",
+                "x-rapidapi-key": "0b9293b7c9mshce13606d976dadap1ffc37jsn3bd5bec95c01"
+            }
+        })
+            .then(response => {
+                let converted = response.json()
+                return converted
+            })
+            .then(data => {
+                console.log(data);
+                setData(data.items)
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [])
+
     return (
         <div>
             <h1>Home Page</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam architecto at exercitationem ipsa iste molestiae nobis odit! Error quo reprehenderit velit! Aperiam eius non odio optio, perspiciatis suscipit vel?</p>
+            {data && data.map(item => {
+                return (
+                    <div><img src={item.volumeInfo.imageLinks.thumbnail} alt="a" /> </div>
+                )
+            })}
+            <BooksList />
         </div>
     );
 };
