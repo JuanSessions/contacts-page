@@ -6,7 +6,7 @@ const NavBar1 = () => {
            <ul>
                        <li>
                     <NavLink to="/contact" activeClassName="active" className="ai-element__label">
-                        User account
+                        User Account Info
                         
                     </NavLink>
                 </li>

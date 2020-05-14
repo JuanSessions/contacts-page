@@ -15,7 +15,7 @@
 
 .App-header {
     background-color: #282c34;
-    min-height: 10vh;
+    min-height: 4vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,10 +38,28 @@
 }
 
 .section {
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 6rem;
     list-style-type: none;
+    background-image: url(../images/books.jpg);
 }
 
-.ai-element__label {
-    text-decoration: none;
-    list-style: none;
+button {
+    height: 1.5rem;
+    color: white;
+    background-color: rgb(46, 22, 68);
+    border: solid;
+    border-radius: 6px;
+}
+
+.library-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    top: 3rem;
 }

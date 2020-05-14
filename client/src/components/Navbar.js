@@ -9,12 +9,17 @@ function Navbar() {
             <ul className="section">
                 <li>
                     <NavLink to="/" exact activeClassName="active" className="ai-element__label" >
-                        Home
+                        <button> Home</button>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/login" exact activeClassName="active" className="ai-element__label" >
-                        Login
+                        <button>Login</button>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/register" exact activeClassName="active" className="ai-element__label" >
+                        <button>Register</button>
                     </NavLink>
                 </li>
 

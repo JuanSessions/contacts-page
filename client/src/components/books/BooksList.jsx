@@ -17,8 +17,8 @@ const BooksList = () => {
 
     return (
         <div>
-            <h1>Books List Page</h1>
-            <p>display of catalog</p>
+
+            <h1>Catalog Display</h1>
             {
                 books && books.map(book => {
                     return (
