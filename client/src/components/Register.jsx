@@ -37,7 +37,7 @@ export default function UserRegistration() {
 
     return (
 
-        <div className="user-regist-form">
+        <div className="user-regist-form form-container">
             <div className="form-wrap">
                 <form onSubmit={handleRegistration}>
                     <h1>Sign Up!</h1>
@@ -47,7 +47,8 @@ export default function UserRegistration() {
                     <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                     <input type="password" placeholder="Confirm Password" onChange={(e) => setPassword(e.target.value)} />
                     <input type="role" placeholder="User/Admin" onChange={(e) => setRole(e.target.value)} />
-                    <input type="submit" value="Sign Up" />
+
+                    <button type="submit" className="btn-submit">Sign Up</button>
                 </form>
             </div>
         </div>

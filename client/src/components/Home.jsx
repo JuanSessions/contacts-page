@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-{/*import BooksList from './books/BooksList'; */ }
+import BooksList from './books/BooksList';
+
 
 
 const Home = () => {
@@ -28,17 +29,19 @@ const Home = () => {
     }, [])
 
     return (
-        <div className="library-items">
-            <h1>Home Page</h1>
-            {data && data.map(item => {
-                return (
-                    <div>
-                        <img src={item.volumeInfo.imageLinks.thumbnail} alt="a" />
-                        <p>{item.volumeInfo.authors}</p>
+        <div className="library-div">
+            <h1>- Home Page -</h1>
+            <div className="library-items">
+                {data && data.map(item => {
+                    return (
+                        <div className="library-item">
+                            <img src={item.volumeInfo.imageLinks.thumbnail} alt="a" />
+                            <p>{item.volumeInfo.authors}</p>
 
-                    </div>
-                )
-            })}
+                        </div>
+                    )
+                })}
+            </div>
             {/* <BooksList /> */}
         </div>
     );

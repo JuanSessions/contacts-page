@@ -5,6 +5,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import BooksOrder from "./components/books/BooksOrder"
 import NotFound from "./components/NotFound"
+import UserAccountInfo from './components/UserAccountInfo';
 
 
 
@@ -27,6 +28,9 @@ function Routes(props) {
             <Route path="/login"
                 render={(props) =>
                     <Login {...props} logIn={logIn} setLogIn={setLogIn} />} />
+            <Route path="/contact"
+                render={(props) =>
+                    <UserAccountInfo {...props} logIn={logIn} setLogIn={setLogIn} />} />
             <Route component={NotFound} />
         </Switch>
 

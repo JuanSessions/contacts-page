@@ -3,7 +3,7 @@ import React from 'react';
 const NavBar1 = () => {
     return (
         <div>
-           <ul>
+           <ul className="nav1">
                        <li>
                     <NavLink to="/contact" activeClassName="active" className="ai-element__label">
                         User Account Info

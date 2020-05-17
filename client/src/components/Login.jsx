@@ -23,9 +23,13 @@ export default function Login(props) {
         const response = await fetch('http://localhost:3001/contacts/login', options);
         const data = await response.json();
         console.log('data response:', data);
+
+
         if (data.success) {
             props.setLogIn(true)
             console.log("login")
+        } else {
+            alert("wrong login data")
         }
         console.log(response.headers.get("x-auth"))
     }
@@ -38,7 +42,7 @@ export default function Login(props) {
                     <form onSubmit={handleLogin}>
                         <input type="text" name="email" placeholder="Enter Email" onChange={(e) => setEmail(e.target.value)} required />
                         <input type="password" name="password" placeholder="Enter Password" onChange={(e) => setPassword(e.target.value)} required />
-                        <button type="submit">Login</button>
+                        <button type="submit" className="btn-submit">Login</button>
                     </form>
                 </div>
             }
